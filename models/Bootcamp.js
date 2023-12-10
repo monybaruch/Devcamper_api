@@ -99,23 +99,21 @@ BootcampSchema.pre('save', function (next) {
 });
 
 // Geocode & create location field
-
 BootcampSchema.pre('save', async function (next) {
   const loc = await geocoder.geocode(this.address);
   this.location = {
-    type: 'point',
+    type: 'Point',
     coordinates: [loc[0].longitude, loc[0].latitude],
     formattedAddress: loc[0].formattedAddress,
     street: loc[0].streetName,
     city: loc[0].city,
     state: loc[0].stateCode,
-    zipcode: loc[0].zipcode,
-    coutry: loc[0].countryCode,
+    zipcode: loc[0].zipcodeCode,
+    country: loc[0].countryCode,
   };
 
-  //do not save address in DB
+  // Do not save address in DB
   this.address = undefined;
-
   next();
 });
 
